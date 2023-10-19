@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Error</h1>
+        <p>There was an error in processing your uploaded file, please check that the uploaded file is correct</p>
+        <a href="{{ url_for('routes.pdf_tool') }}">Go back</a>
+    </div>
+{% endblock content %}

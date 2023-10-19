@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-5.2.3.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+
+    {% if title %}
+        <title>Toolkit - {{ title }}</title>
+    {% else %}
+        <title>Toolkit</title>
+    {% endif %}
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-dark navbar-expand-lg px-2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Montage Toolkit</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-item nav-link" href="{{ url_for('routes.pdf_tool') }}">PDF-Tool</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container py-4">
+    <div class="container m-0 p-0">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="footer mt-auto py-1">
+    <div class="d-flex justify-content-between py-2 px-3">
+        <div class="text-muted">
+            &copy 2023 Andrew Wang
+        </div>
+        <div>
+            <a class="link-info text-decoration-none" href="mailto:awwang3@uci.edu">
+                awwang3@uci.edu
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script src="../static/js/bootstrap-5.2.3.min.js"></script>
+<script src="../static/js/popper-2.9.2.min.js"></script>
+</body>
+
+</html>
