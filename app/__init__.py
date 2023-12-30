@@ -4,10 +4,10 @@ from .routes import views
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'NWwMnpg-rKMmI-oR746MKL8glvSZres1hmWRbSW1Gis'
-
+app.config['SECRET_KEY'] = 'secret'
 
 app.register_blueprint(views)
+
 
 @app.errorhandler(500)
 def error_500(_error):
