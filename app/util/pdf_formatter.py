@@ -108,9 +108,9 @@ class PDFFormatter:
             elif time_pattern.match(line):
                 dt = datetime.strptime(time_pattern.match(line).group('datetime'), '%a %m/%d/%Y %I:%M %p')
                 if platform.system() == "Windows":
-                    formatted_time = dt.strftime('%A, %B %#d, %Y %#I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
+                    formatted_time = dt.strftime('%A, %B %#d, %#I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
                 else:
-                    formatted_time = dt.strftime('%A, %B %-d, %Y %-I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
+                    formatted_time = dt.strftime('%A, %B %-d, %-I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
                 current_performance.date = formatted_time
             elif location_pattern.match(line):
                 loc = location_pattern.match(line).group('location').strip()

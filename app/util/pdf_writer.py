@@ -67,7 +67,7 @@ class PDFWriter:
             can.setFillColorRGB(0, 0, 0)
 
             text_object.textOut(performance.output_heavy())
-            text_object.setFillColorRGB(0.5, 0.5, 0.5)
+            text_object.setFillColorRGB(0.4, 0.4, 0.4)
             text_object.textOut(performance.output_light())
 
             can.drawText(text_object)
@@ -89,7 +89,7 @@ class PDFWriter:
             can.setFillColorRGB(0, 0, 0)
 
             text_object.textOut(performance.output_heavy())
-            text_object.setFillColorRGB(0.5, 0.5, 0.5)
+            text_object.setFillColorRGB(0.4, 0.4, 0.4)
             text_object.textOut(performance.output_light())
 
             can.drawText(text_object)
