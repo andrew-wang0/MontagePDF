@@ -116,8 +116,12 @@ class PDFFormatter:
                 loc = location_pattern.match(line).group('location').strip()
                 if loc.startswith('CHOMP'):
                     current_performance.location = 'Fountain Court'
+                    print('CHOMP')
                 elif loc.startswith('West'):
                     current_performance.location = 'Westland House'
+                    print('West')
+                else:
+                    raise ValueError(f'Unknown location: {loc}')
 
             if current_performance.is_complete():
                 performances.append(current_performance)

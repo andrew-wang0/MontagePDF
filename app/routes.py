@@ -48,8 +48,9 @@ def pdf_tool():
 
         write_path = Path(views.root_path, 'files', 'output.new.pdf')
 
-        PDFWriter(PDFFormatter(save_path), options).write_pdf(write_path)
+        pdf_formatted = PDFFormatter(save_path)
+        PDFWriter(pdf_formatted, options).write_pdf(write_path)
 
-        return send_file(write_path)
+        return send_file(write_path, download_name=pdf_formatted.month + '.pdf', as_attachment=True)
 
     return render_template('pdf_tool.html', form=form)

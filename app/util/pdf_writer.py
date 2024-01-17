@@ -55,7 +55,7 @@ class PDFWriter:
         text_object = can.beginText(x, y)
         text_object.setFont("Helvetica-Bold", 14 * self.options.text_scale)
         can.setFillColorRGB(*self.options.secondary_color)
-        text_object.textLine("Westland House")
+        text_object.textLine("Fountain Court")
         can.drawText(text_object)
         y -= line_spacing
         y -= before_green_spacing
@@ -77,7 +77,7 @@ class PDFWriter:
         text_object = can.beginText(x, y)
         text_object.setFont("Helvetica-Bold", 14 * self.options.text_scale)
         can.setFillColorRGB(*self.options.secondary_color)
-        text_object.textLine("Fountain Court")
+        text_object.textLine("Westland House")
         can.drawText(text_object)
         y -= line_spacing
         y -= before_green_spacing
