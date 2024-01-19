@@ -90,8 +90,10 @@ class PDFFormatter:
 
     def formatted_lines_to_performances(self, lines: list[str]):
         name_instrument_pattern = re.compile(r'(?P<name>.*) - (?P<instrument>.*) \((WeHo|CHOMP)\)')
+
         time_pattern = re.compile(
             r'(?P<datetime>(Mon|Tue|Wed|Thu|Fri|Sat|Sun) \d+/\d+/\d+ \d+:\d+ (AM|PM)) - (\d+:\d+ (AM|PM))')
+
         location_pattern = re.compile(r'Location:(?P<location>.*)')
 
         performances = []
@@ -100,6 +102,7 @@ class PDFFormatter:
         self.month = lines[0].split(' ')[0]
 
         for line in lines:
+            print(line)
             if name_instrument_pattern.match(line):
                 d = name_instrument_pattern.match(line).groupdict()
                 current_performance.name = d['name']
@@ -107,10 +110,27 @@ class PDFFormatter:
 
             elif time_pattern.match(line):
                 dt = datetime.strptime(time_pattern.match(line).group('datetime'), '%a %m/%d/%Y %I:%M %p')
-                if platform.system() == "Windows":
-                    formatted_time = dt.strftime('%A, %B %#d, %#I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
+
+                if dt.minute == 0:
+                    if platform.system() == "Windows":
+                        formatted_time = dt.strftime('%A, %B %#d, %#I %p')
+                        formatted_time = formatted_time.replace('AM', 'a.m.').replace('PM',
+                                                                                      'p.m.')
+                    else:
+                        formatted_time = dt.strftime('%A, %B %-d, %-I %p')
+                        formatted_time = formatted_time.replace('AM', 'a.m.').replace('PM',
+                                                                                      'p.m.')
                 else:
-                    formatted_time = dt.strftime('%A, %B %-d, %-I %p').replace('AM', 'a.m.').replace('PM', 'p.m.')
+                    if platform.system() == "Windows":
+                        formatted_time = dt.strftime('%A, %B %#d, %#I:%M %p')
+                        formatted_time = formatted_time.replace('AM', 'a.m.').replace('PM',
+                                                                                      'p.m.')
+                    else:
+                        formatted_time = dt.strftime('%A, %B %-d, %-I:%M %p')
+                        formatted_time = formatted_time.replace('AM', 'a.m.').replace('PM',
+                                                                                      'p.m.')
+
+                print(formatted_time)
                 current_performance.date = formatted_time
             elif location_pattern.match(line):
                 loc = location_pattern.match(line).group('location').strip()
