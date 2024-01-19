@@ -51,6 +51,6 @@ def pdf_tool():
         pdf_formatted = PDFFormatter(save_path)
         PDFWriter(pdf_formatted, options).write_pdf(write_path)
 
-        return send_file(write_path, download_name=pdf_formatted.month + '.pdf', as_attachment=True)
+        return send_file(write_path, download_name=pdf_formatted.month + ' Flier.pdf', as_attachment=True)
 
     return render_template('pdf_tool.html', form=form)

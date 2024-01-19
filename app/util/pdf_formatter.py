@@ -102,7 +102,6 @@ class PDFFormatter:
         self.month = lines[0].split(' ')[0]
 
         for line in lines:
-            print(line)
             if name_instrument_pattern.match(line):
                 d = name_instrument_pattern.match(line).groupdict()
                 current_performance.name = d['name']
