@@ -12,3 +12,7 @@ body {
 header {
     background-color: #3275ad;
 }
+
+li {
+    margin-bottom: 10px;
+}
