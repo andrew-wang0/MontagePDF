@@ -22,7 +22,7 @@ class ToolForm(FlaskForm):
     calendar_pdf = FileField('Upload Calendar PDF',
                              validators=[FileRequired(), FileAllowed(['pdf']), FileSizeLimit(1)])
 
-    template_pdf = FileField('Upload Template PDF',
+    template_pdf = FileField('Upload Template PDF (optional, leave blank for default background)',
                              validators=[FileAllowed(['pdf']), FileSizeLimit(1)])
 
     secondary_color = ColorField(label='Secondary Color', default='#c3d924')
