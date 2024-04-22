@@ -1,3 +1,5 @@
 .idea
 .env
 __pycache__/
+app/files/template/custom_base.pdf
+app/files/output.pdf

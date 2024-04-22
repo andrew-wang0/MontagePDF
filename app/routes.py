@@ -17,7 +17,7 @@ def save_calendar_pdf(pdf):
 
 
 def save_custom_template_pdf(pdf):
-    save_path = Path(views.root_path, 'files', 'base', 'custom_base.pdf')
+    save_path = Path(views.root_path, 'files', 'template', 'custom_base.pdf')
     pdf.save(save_path)
     return save_path
 
@@ -30,7 +30,7 @@ def pdf_tool():
         save_path = save_calendar_pdf(form.calendar_pdf.data)
 
         if not form.template_pdf.data:
-            template_path = Path(views.root_path, 'files', 'base', 'base.pdf')
+            template_path = Path(views.root_path, 'files', 'template', 'base.pdf')
         else:
             template_path = save_custom_template_pdf(form.template_pdf.data)
 
@@ -47,7 +47,7 @@ def pdf_tool():
             text_auto_scale=float(form.text_scale.data) == 1.0
         )
 
-        write_path = Path(views.root_path, 'files', 'output.new.pdf')
+        write_path = Path(views.root_path, 'files', 'output.pdf')
 
         pdf_formatted = PDFFormatter(save_path)
 
