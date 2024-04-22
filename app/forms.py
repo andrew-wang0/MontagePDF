@@ -1,6 +1,8 @@
+from decimal import Decimal
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import SubmitField, ColorField, DecimalField, IntegerField, StringField
+from wtforms import SubmitField, ColorField, DecimalField, IntegerField, StringField, BooleanField
 from wtforms.validators import ValidationError, DataRequired
 
 
@@ -27,15 +29,15 @@ class ToolForm(FlaskForm):
 
     secondary_color = ColorField(label='Secondary Color', default='#c3d924')
 
-    header_scale = DecimalField(default=1.0)
-    text_scale = DecimalField(default=1.0)
+    title_scale = DecimalField(default=Decimal(1.0))
+    text_scale = DecimalField(default=Decimal(1.0), label='Text Scale (leave 1 for auto scaling)')
 
-    header_text = StringField(label='Header Text (Optional)')
+    title_text = StringField(label='Title Text (Optional)')
 
-    header_x = IntegerField(default=40, validators=[DataRequired()])
-    header_y = IntegerField(default=578, validators=[DataRequired()])
+    title_x = IntegerField(default=40, validators=[DataRequired()])
+    title_y = IntegerField(default=578, validators=[DataRequired()])
 
     text_x = IntegerField(default=40, validators=[DataRequired()])
-    text_y = IntegerField(default=520, validators=[DataRequired()])
+    text_y = IntegerField(default=530, validators=[DataRequired()])
 
     submit = SubmitField('Submit')

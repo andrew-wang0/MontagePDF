@@ -12,18 +12,18 @@ from pdfminer.pdfpage import PDFPage
 
 
 def convert_pdf_to_txt(path: str) -> str:
-    rsrcmgr = PDFResourceManager()
+    resource_manager = PDFResourceManager()
     retstr = StringIO()
-    laparams = LAParams()
-    device = TextConverter(rsrcmgr, retstr, laparams=laparams)
+    la_params = LAParams()
+    device = TextConverter(resource_manager, retstr, laparams=la_params)
     fp = open(path, 'rb')
-    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    interpreter = PDFPageInterpreter(resource_manager, device)
     password = ""
-    maxpages = 0
+    max_pages = 0
     caching = True
-    pagenos = set()
+    page_numbers = set()
 
-    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching,
+    for page in PDFPage.get_pages(fp, page_numbers, maxpages=max_pages, password=password, caching=caching,
                                   check_extractable=True):
         interpreter.process_page(page)
 
@@ -51,13 +51,12 @@ def format_pdf_text(text: str) -> list[str]:
 
 class Performance:
     def __init__(self):
-        self.name = None
-        self.instrument = None
-        self.date = None
-        self.location = None
+        self.name: str | None = None
+        self.instrument: str | None = None
+        self.date: str | None = None
+        self.location: str | None = None
 
     def __repr__(self):
-        # Saturday, September 2, 1 p.m. – Tamas Marius, Flute
         return f'{self.date} - {self.name} - {self.instrument} <{self.location}>'
 
     def output_heavy(self):
@@ -67,26 +66,20 @@ class Performance:
         return f' \u2013 {self.name}, {self.instrument}'
 
     def is_complete(self):
-        return (self.name is not None and
-                self.instrument is not None and
-                self.date is not None and
-                self.location is not None)
+        return all(self.__dict__.values())
 
 
 class PDFFormatter:
     def __init__(self, pdf_path: str | pathlib.Path):
         self.month = None
-        self.performances = None
+        self.performances: list[Performance] | None = None
 
         text = convert_pdf_to_txt(pdf_path)
         formatted_text = format_pdf_text(text)
         self.formatted_lines_to_performances(formatted_text)
 
-    def westland_house_performances(self):
-        return [p for p in self.performances if p.location == 'Westland House']
-
-    def fountain_court_performances(self):
-        return [p for p in self.performances if p.location == 'Fountain Court']
+    def performances_for_location(self, location: str):
+        return [p for p in self.performances if p.location.lower() == location.lower()]
 
     def formatted_lines_to_performances(self, lines: list[str]):
         name_instrument_pattern = re.compile(r'(?P<name>.*) - (?P<instrument>.*) \((WeHo|CHOMP)\)')
@@ -129,16 +122,13 @@ class PDFFormatter:
                         formatted_time = formatted_time.replace('AM', 'a.m.').replace('PM',
                                                                                       'p.m.')
 
-                print(formatted_time)
                 current_performance.date = formatted_time
             elif location_pattern.match(line):
                 loc = location_pattern.match(line).group('location').strip()
                 if loc.startswith('CHOMP'):
                     current_performance.location = 'Fountain Court'
-                    print('CHOMP')
                 elif loc.startswith('West'):
                     current_performance.location = 'Westland House'
-                    print('West')
                 else:
                     raise ValueError(f'Unknown location: {loc}')
 

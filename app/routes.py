@@ -35,21 +35,25 @@ def pdf_tool():
             template_path = save_custom_template_pdf(form.template_pdf.data)
 
         options = PDFWriterOptions(
-            header_text=form.header_text.data,
+            title_text=form.title_text.data,
             template_path=template_path,
             secondary_color=[val / 255 for val in ImageColor.getrgb(form.secondary_color.data)],
-            header_scale=float(form.header_scale.data),
+            title_scale=float(form.title_scale.data),
             text_scale=float(form.text_scale.data),
-            header_x=form.header_x.data,
-            header_y=form.header_y.data,
+            title_x=form.title_x.data,
+            title_y=form.title_y.data,
             text_x=form.text_x.data,
             text_y=form.text_y.data,
+            text_auto_scale=float(form.text_scale.data) == 1.0
         )
 
         write_path = Path(views.root_path, 'files', 'output.new.pdf')
 
         pdf_formatted = PDFFormatter(save_path)
-        PDFWriter(pdf_formatted, options).write_pdf(write_path)
+
+        pdf_writer = PDFWriter(pdf_formatted, options)
+        pdf_writer.draw()
+        pdf_writer.write_pdf(write_path)
 
         return send_file(write_path, download_name=pdf_formatted.month + ' Flier.pdf', as_attachment=True)
 
