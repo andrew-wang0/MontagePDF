@@ -95,12 +95,18 @@ class PDFFormatter:
         self.month = lines[0].split(' ')[0]
 
         for line in lines:
+
             if name_instrument_pattern.match(line):
                 d = name_instrument_pattern.match(line).groupdict()
                 current_performance.name = d['name']
                 current_performance.instrument = d['instrument']
 
+
             elif time_pattern.match(line):
+                if not current_performance.name:
+                    current_performance = Performance()
+                    continue
+
                 dt = datetime.strptime(time_pattern.match(line).group('datetime'), '%a %m/%d/%Y %I:%M %p')
 
                 if dt.minute == 0:
@@ -123,8 +129,14 @@ class PDFFormatter:
                                                                                       'p.m.')
 
                 current_performance.date = formatted_time
+
             elif location_pattern.match(line):
+                if not current_performance.date:
+                    current_performance = Performance()
+                    continue
+
                 loc = location_pattern.match(line).group('location').strip()
+
                 if loc.startswith('CHOMP'):
                     current_performance.location = 'Fountain Court'
                 elif loc.startswith('West'):
@@ -132,7 +144,11 @@ class PDFFormatter:
                 else:
                     raise ValueError(f'Unknown location: {loc}')
 
+
+
             if current_performance.is_complete():
+                print(current_performance.__dict__)
+
                 performances.append(current_performance)
                 current_performance = Performance()
 
